@@ -1,0 +1,1 @@
+{add_block group='toolbar' name="toolbar_seopack.tpl" priority=90}

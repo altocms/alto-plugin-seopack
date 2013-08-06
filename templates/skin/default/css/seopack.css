@@ -1,0 +1,4 @@
+.toolbar .toolbar-seopack i { background: url(../images/toolbar_seopack.png) 0px 0px no-repeat; }
+.toolbar .toolbar-seopack i:hover { background-position: -25px 0px; }
+.block-parameter { padding: 10px 0; }
+.modal.seopack{ width: 450px; margin-left: -225px; top: 50px; }
