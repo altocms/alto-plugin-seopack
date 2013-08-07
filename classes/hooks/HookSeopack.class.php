@@ -6,7 +6,6 @@
  * @Description: Optimization site for search engines
  * @Author: web-studio stfalcon.com
  * @Author URI: http://stfalcon.com
- * @LiveStreet Version: 0.4.2
  * @License: GNU GPL v3, http://www.gnu.org/licenses/agpl.txt
  * ----------------------------------------------------------------------------
  */
@@ -19,10 +18,12 @@ class PluginSeopack_HookSeopack extends Hook {
      * @return void
      */
     public function RegisterHook() {
-        $this->AddHook('module_viewer_display_before', 'hook_meta');
 		$this->AddHook('template_admin_menu_content', 'hook_admin_menu');
-		$this->AddHook('template_body_begin', 'hook_body_begin');
-		$this->AddHook('template_body_end', 'hook_body_end');
+        if(Router::GetAction()!='admin') {
+		    $this->AddHook('template_body_begin', 'hook_body_begin');
+		    $this->AddHook('template_body_end', 'hook_body_end');
+            $this->AddHook('module_viewer_display_before', 'hook_meta');
+        }
     }
 
     /**
