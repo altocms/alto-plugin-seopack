@@ -9,12 +9,12 @@
  */
 
 return array(
-    'menu_content_seopack' => 'SEOPack',
-	'seopack_title' => 'SEOPack',
+    'menu_content_seopack' => 'SEO параметры',
+	'seopack_title' => 'SEO параметры',
 	'manage_seo_page' => 'Управлять SEO параметрами страницы',
 	'edit_parameters' => 'SEO параметры',
 	'auto_generate' => 'Автогенерация',
-    'seopack_title' => 'Управление СЕО настройками для конкретных URL',
+    'seopack_title' => 'Управление SEO настройками для страниц сайта',
     'seopack_create' => 'Создание новой записи',
     'seopack_edit' => 'Редактирование записи',
 	'seopack_create_url' => 'URL',
@@ -38,9 +38,9 @@ return array(
 	'seopack_admin_action_edit' => 'Редактировать',
     'seopack_admin_action_delete' => 'Удалить',
     'seopack_admin_action_delete_ok' => 'SEO настройка удалена',
-    'seopack_admin_action_delete_error' => 'Возникла ошибка при удалении SEO настройка',
-    'seopack_admin_action_delete_confirm' => 'Вы действительно хотите удалить SEO настройка для данной страницы?',
-	'seopack' => 'SEOPack',
+    'seopack_admin_action_delete_error' => 'Возникла ошибка при удалении SEO настроек',
+    'seopack_admin_action_delete_confirm' => 'Вы действительно хотите удалить SEO настройку для данной страницы?',
+	'seopack' => 'SEO параметры',
     'seopack_new' => 'Новая запись',
     'seopack_options' => 'Опции',
 	'menu_seopack_new' => 'Новая',
