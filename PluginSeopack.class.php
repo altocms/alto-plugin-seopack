@@ -1,45 +1,45 @@
 <?php
-
 /* ---------------------------------------------------------------------------
- * @Plugin Name: SEO
- * @Plugin URI:
+ * @Project: Alto CMS
+ * @Plugin Name: SEOpack
  * @Description: Optimization site for search engines
- * @Author: web-studio stfalcon.com
+ * @Author: Klaus
  * @Author URI: http://stfalcon.com
- * @License: GNU GPL v3, http://www.gnu.org/licenses/agpl.txt
- * ----------------------------------------------------------------------------
+ * @License: GNU GPL v2 & MIT
+ *----------------------------------------------------------------------------
+ * Based on
+ *   Plugin SEO for LiveStreet CMS
+ *   Author: Web studio stfalcon.com
+ *   Site: http://stfalcon.com
+ *----------------------------------------------------------------------------
  */
-
-/**
- * Deny direct access to this file
- */
-if (!class_exists('Plugin')) {
-    die('Hacking attemp!');
-}
 
 class PluginSeopack extends Plugin {
-	
-	protected $aInherits = array(
-        'action' => array(
-            'ActionAdmin'
-        ),
-    );
-	
-	public $aDelegates = array(
-        'template' => array(
-            'toolbar_seopack.tpl' => '_toolbar_seopack.tpl'
-        ),
-    );
+
+    protected $aInherits
+        = array(
+            'action' => array(
+                'ActionAdmin'
+            ),
+        );
+
+    public $aDelegates
+        = array(
+            'template' => array(
+                'toolbar_seopack.tpl' => '_toolbar_seopack.tpl'
+            ),
+        );
+
     /**
      * Plugin Activation
      *
      * @return boolean
      */
     public function Activate() {
-		if (!$this->isTableExists('prefix_seopack')) {
-			$this->ExportSQL(dirname(__FILE__) . '/dump.sql');
-		}
-		return true; 
+        if (!$this->isTableExists('prefix_seopack')) {
+            $this->ExportSQL(dirname(__FILE__) . '/install/db/dump.sql');
+        }
+        return true;
     }
 
     /**
@@ -48,8 +48,10 @@ class PluginSeopack extends Plugin {
      * @return void
      */
     public function Init() {
-		$this->Viewer_AppendScript(Plugin::GetTemplateWebPath(__CLASS__).'js/seopack.js');
-        $this->Viewer_AppendStyle(Plugin::GetTemplateWebPath(__CLASS__).'css/seopack.css');
+        $this->Viewer_AppendScript(Plugin::GetTemplateDir(__CLASS__) . 'assets/js/seopack.js');
+        $this->Viewer_AppendStyle(Plugin::GetTemplateDir(__CLASS__) . 'assets/css/seopack.css');
     }
 
 }
+
+// EOF

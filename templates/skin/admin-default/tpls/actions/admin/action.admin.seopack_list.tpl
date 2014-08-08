@@ -2,7 +2,7 @@
 
 {block name="content-bar"}
     <div class="btn-group">
-        <a href="{router page='admin'}seopackadd/" class="btn btn-primary"><i class="icon-plus-sign"></i></a>
+        <a href="{router page='admin'}seopackadd/" class="btn btn-primary"><i class="icon icon-plus"></i></a>
     </div>
 {/block}
 
@@ -46,11 +46,11 @@
 						<td class="center">
                             <a href="{router page='admin'}seopackedit/{$oSeopack->getId()}/"
                                title="{$aLang.plugin.seopack.seopack_admin_action_edit}" class="tip-top i-block">
-                                <i class="icon-edit"></i>
+                                <i class="icon icon-note"></i>
                             </a>
                             <a href="#" title="{$aLang.plugin.seopack.seopack_admin_action_delete}" class="tip-top i-block"
                                   onclick="return admin.confirmDelete('{$oSeopack->getId()}', '{cfg name="path.root.web"}{$oSeopack->getUrl()|strip_tags|escape:'html'}'); return false;">
-                                <i class="icon-remove"></i>
+                                <i class="icon icon-trash"></i>
                             </a>
                         </td>
                     </tr>
@@ -68,13 +68,13 @@
     var admin = admin || { };
 
     admin.confirmDelete = function(id, title) {
-        admin.confirm({
-            header: '{$aLang.plugin.seopack.seopack_admin_action_delete}',
-            content: '{$aLang.plugin.seopack.seopack_admin_action_delete_message} "' + title + '"<br/>{$aLang.plugin.seopack.seopack_admin_action_delete_confirm}',
-            onConfirm: function() {
-                document.location = "{router page='admin'}seopackdelete/" + id + "/?security_ls_key={$ALTO_SECURITY_KEY}";
-            }
-        })
+		ls.modal.confirm({
+			title: '{$aLang.plugin.seopack.seopack_admin_action_delete}',
+			message: '{$aLang.plugin.seopack.seopack_admin_action_delete_message} "' + title + '"<br/>{$aLang.plugin.seopack.seopack_admin_action_delete_confirm}',
+			onConfirm: function () {
+				document.location = "{router page='admin'}seopackdelete/" + id + "/?security_ls_key={$ALTO_SECURITY_KEY}";
+			}
+		});				
     }
 </script>
 

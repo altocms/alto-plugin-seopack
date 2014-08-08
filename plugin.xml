@@ -4,14 +4,13 @@
         <lang name="default">SEOPack</lang>
     </name>
     <author>
-        <lang name="default">Klaus, AltoCMS team, Web studio stfalcon.com</lang>
+        <lang name="default">Klaus, AltoCMS Team, Web studio stfalcon.com</lang>
     </author>
     <homepage>http://altocms.com</homepage>
-    <version>0.4.0</version>
+    <version>1.0.0</version>
     <requires>
-        <livestreet>1.0</livestreet>
         <alto>
-            <version>0.9.7.1</version>
+             <version>1.0.7</version>
         </alto>
     </requires>
     <description>

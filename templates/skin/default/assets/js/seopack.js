@@ -1,7 +1,3 @@
-jQuery(document).ready(function($){
-	$('#seopack-edit').jqm({modal: true, toTop: true});
-});
-
 var ls = ls || {};
 ls.toolbar = ls.toolbar || {};
 
@@ -11,7 +7,7 @@ ls.toolbar = ls.toolbar || {};
 ls.toolbar.seopack = (function ($) {
 
 	this.open = function( ) {
-		$('#seopack-edit').jqmShow();
+		$('#modal-seopack_edit').modal('show');
 		return false;
 	};	
 	
@@ -47,16 +43,16 @@ ls.toolbar.seopack = (function ($) {
 			if (result.bStateError) {
 				ls.msg.error(null, result.sMsg);
 			}else{
-				if(result.title)document.title = result.title;
-				$('#seopack-edit').jqmHide();
+				if(result.title)document.title = result.title; 
+				$('#modal-seopack_edit').modal('hide');
 				ls.msg.notice(null, result.sMsg);
 			}
 		}.bind(this));
 		return false;
 	};
 	
-	this.cancel = function( ) {
-		$('#seopack-edit').jqmHide();
+	this.cancel = function( ) { 
+		$('#modal-seopack_edit').modal('hide');
 		return false;
 	};
 	
