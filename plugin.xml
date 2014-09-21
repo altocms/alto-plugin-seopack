@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
-	<id>seopack</id>
+    <id>seopack</id>
     <name>
         <lang name="default">SEOPack</lang>
     </name>
@@ -9,7 +9,7 @@
     </author>
     <homepage>http://altocms.com</homepage>
     <version>1.0.0</version>
-	<dirname>seopack</dirname>
+    <dirname>seopack</dirname>
     <requires>
         <alto>
              <version>1.0.7</version>
