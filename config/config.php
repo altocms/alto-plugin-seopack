@@ -27,5 +27,12 @@ $config['widgets'][] = array(
 	'params'=>array('plugin'=>'seopack'),
 );
 
+$cfgLangLoadToJs = Config::Get('lang.load_to_js');
+
+$cfgLangLoadToJs[] = 'plugin.seopack.recomended_title_length';
+$cfgLangLoadToJs[] = 'plugin.seopack.recomended_description_length';
+
+Config::Set('lang.load_to_js', $cfgLangLoadToJs);
+
 return $config;
 ?>

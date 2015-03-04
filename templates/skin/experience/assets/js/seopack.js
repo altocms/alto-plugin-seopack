@@ -58,3 +58,16 @@ ls.toolbar.seopack = (function ($) {
 	
 	return this;
 }).call(ls.toolbar.seopack || {},jQuery);
+
+jQuery(document).ready(function ($) {
+	$("#seopack-title-form-text").charCount({
+		allowed: 60,
+		warning: 0,
+		counterText: ls.lang.get('plugin.seopack.recomended_title_length')
+	});
+	$("#seopack-description-form-text").charCount({
+		allowed: 160,
+		warning: 0,
+		counterText: ls.lang.get('plugin.seopack.recomended_description_length')
+	});
+});

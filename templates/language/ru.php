@@ -45,4 +45,6 @@ return array(
     'seopack_options' => 'Опции',
 	'menu_seopack_new' => 'Новая',
     'menu_seopack_options' => 'Опции',
+    'recomended_title_length' => 'Рекомедуется не более 60 символов, осталось: ',
+    'recomended_description_length' => 'Рекомедуется не более 160 символов, осталось: ',
 );

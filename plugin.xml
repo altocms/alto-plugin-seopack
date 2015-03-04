@@ -8,7 +8,7 @@
         <lang name="default">Klaus, AltoCMS Team, Web studio stfalcon.com</lang>
     </author>
     <homepage>http://altocms.com</homepage>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <dirname>seopack</dirname>
     <requires>
         <alto>

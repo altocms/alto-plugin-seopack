@@ -62,7 +62,7 @@
 								   {if !($_aRequest.title)}checked{/if}/> {$aLang.plugin.seopack.auto_generate}
 							</small>
 						</label>						
-						<textarea rows="5" id="seopack-title-form-text" name="title" class="input-text input-width-full" {if !($_aRequest.title)}disabled{/if}>{if ($_aRequest.title)}{$_aRequest.title}{/if}</textarea>
+						<textarea rows="5" id="seopack-title-form-text" name="title" class="input-text input-width-full form-control" {if !($_aRequest.title)}disabled{/if}>{if ($_aRequest.title)}{$_aRequest.title}{/if}</textarea>
 						
 					</div>
 				</div>
@@ -78,7 +78,7 @@
 								   {if !($_aRequest.description)}checked{/if}/> {$aLang.plugin.seopack.auto_generate}
 							</small>
 						</label>
-						<textarea rows="5" id="seopack-description-form-text" name="description" class="input-text input-width-full" {if !($_aRequest.description)}disabled{/if}>{if ($_aRequest.description)}{$_aRequest.description}{/if}</textarea>
+						<textarea rows="5" id="seopack-description-form-text" name="description" class="input-text input-width-full form-control" {if !($_aRequest.description)}disabled{/if}>{if ($_aRequest.description)}{$_aRequest.description}{/if}</textarea>
 						
 					</div>
 				</div>
@@ -94,7 +94,7 @@
 								   {if !($_aRequest.keywords)}checked{/if}/> {$aLang.plugin.seopack.auto_generate}
 							</small>
 						</label>
-						<textarea rows="5" id="seopack-keywords-form-text" name="keywords" class="input-text input-width-full" {if !($_aRequest.keywords)}disabled{/if}>{if ($_aRequest.keywords)}{$_aRequest.keywords}{/if}</textarea>
+						<textarea rows="5" id="seopack-keywords-form-text" name="keywords" class="input-text input-width-full form-control" {if !($_aRequest.keywords)}disabled{/if}>{if ($_aRequest.keywords)}{$_aRequest.keywords}{/if}</textarea>
 						
 					</div>
 				</div>
