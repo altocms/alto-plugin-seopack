@@ -16,17 +16,20 @@
 
 class PluginSeopack extends Plugin {
 
-    protected $aInherits
-        = array(
-            'action' => array(
-                'ActionAdmin'
-            ),
-        );
-
     public $aDelegates
         = array(
             'template' => array(
                 'toolbar_seopack.tpl' => '_toolbar_seopack.tpl'
+            ),
+        );
+
+    protected $aInherits
+        = array(
+            'action' => array(
+                'ActionAdmin',
+            ),
+            'module' => array(
+                'ModuleSeopack',
             ),
         );
 
@@ -36,6 +39,7 @@ class PluginSeopack extends Plugin {
      * @return boolean
      */
     public function Activate() {
+
         if (!$this->isTableExists('prefix_seopack')) {
             $this->ExportSQL(dirname(__FILE__) . '/install/db/dump.sql');
         }
@@ -48,8 +52,9 @@ class PluginSeopack extends Plugin {
      * @return void
      */
     public function Init() {
-        $this->Viewer_AppendScript(Plugin::GetTemplateDir(__CLASS__) . 'assets/js/seopack.js');
-        $this->Viewer_AppendStyle(Plugin::GetTemplateDir(__CLASS__) . 'assets/css/seopack.css');
+
+        E::ModuleViewer()->AppendScript(Plugin::GetTemplateDir(__CLASS__) . 'assets/js/seopack.js');
+        E::ModuleViewer()->AppendStyle(Plugin::GetTemplateDir(__CLASS__) . 'assets/css/seopack.css');
     }
 
 }

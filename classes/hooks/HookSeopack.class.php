@@ -38,54 +38,57 @@ class PluginSeopack_HookSeopack extends Hook {
 
         $sAction = Router::GetAction();
 
-        $oSeopack = $this->PluginSeopack_Seopack_GetSeopackByUrl(trim($_SERVER['REQUEST_URI'], '/'));
+        $sUrl = E::ModuleSeopack()->ClearUrl(R::Url('path'));
+        $oSeopack = E::ModuleSeopack()->GetSeopackByUrl($sUrl);
 
-        $this->Viewer_Assign('oCurrentUrl', trim($_SERVER['REQUEST_URI'], '/'));
+        E::ModuleViewer()->Assign('sCurrentUrl', $sUrl);
 
         if ($oSeopack) {
-            $this->Viewer_Assign('oSeopack', $oSeopack);
+            E::ModuleViewer()->Assign('oSeopack', $oSeopack);
         }
 
         $sMetaDescriptionTemplate = Plugin::GetTemplateDir(__CLASS__) . 'tpls/meta/description/' . $sAction . '.tpl';
-        if ($this->Viewer_TemplateExists($sMetaDescriptionTemplate)) {
-            $sMetaDescription = $this->Viewer_Fetch($sMetaDescriptionTemplate);
+        if (E::ModuleViewer()->TemplateExists($sMetaDescriptionTemplate)) {
+            $sMetaDescription = E::ModuleViewer()->Fetch($sMetaDescriptionTemplate);
             if ($oSeopack && $oSeopack->getDescription()) {
-                $this->Viewer_Assign('sHtmlDescription', htmlspecialchars($oSeopack->getDescription()));
+                E::ModuleViewer()->Assign('sHtmlDescription', htmlspecialchars($oSeopack->getDescription()));
             } else {
-                $this->Viewer_Assign('sHtmlDescription', htmlspecialchars($sMetaDescription));
+                E::ModuleViewer()->Assign('sHtmlDescription', htmlspecialchars($sMetaDescription));
             }
         }
 
         $sMetaKeywordsTemplate = Plugin::GetTemplateDir(__CLASS__) . 'tpls/meta/keywords/' . $sAction . '.tpl';
-        if ($this->Viewer_TemplateExists($sMetaKeywordsTemplate)) {
-            $sMetaKeywords = $this->Viewer_Fetch($sMetaKeywordsTemplate);
+        if (E::ModuleViewer()->TemplateExists($sMetaKeywordsTemplate)) {
+            $sMetaKeywords = E::ModuleViewer()->Fetch($sMetaKeywordsTemplate);
             if ($oSeopack && $oSeopack->getKeywords()) {
-                $this->Viewer_Assign('sHtmlKeywords', htmlspecialchars($oSeopack->getKeywords()));
+                E::ModuleViewer()->Assign('sHtmlKeywords', htmlspecialchars($oSeopack->getKeywords()));
             } else {
-                $this->Viewer_Assign('sHtmlKeywords', htmlspecialchars($sMetaKeywords));
+                E::ModuleViewer()->Assign('sHtmlKeywords', htmlspecialchars($sMetaKeywords));
             }
         }
         if ($oSeopack && $oSeopack->getTitle()) {
-            $this->Viewer_Assign('sHtmlTitle', htmlspecialchars($oSeopack->getTitle()));
+            E::ModuleViewer()->Assign('sHtmlTitle', htmlspecialchars($oSeopack->getTitle()));
         }
     }
 
     /**
      * Footer hook
      *
-     * @return void
+     * @return string
      */
     public function hook_body_end() {
-        return $this->Viewer_Fetch(Plugin::GetTemplateDir(__CLASS__) . 'tpls/modals/modal.seopack_edit.tpl');
+
+        return E::ModuleViewer()->Fetch(Plugin::GetTemplateDir(__CLASS__) . 'tpls/modals/modal.seopack_edit.tpl');
     }
 
     /**
      * Admin menu hook
      *
-     * @return void
+     * @return string
      */
     public function hook_admin_menu() {
-        return $this->Viewer_Fetch(Plugin::GetTemplateDir(__CLASS__) . 'tpls/admin_menu.tpl');
+
+        return E::ModuleViewer()->Fetch(Plugin::GetTemplateDir(__CLASS__) . 'tpls/admin_menu.tpl');
     }
 
 }

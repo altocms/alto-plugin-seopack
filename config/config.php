@@ -16,23 +16,29 @@
 
 $config = array();
 
-$config['table']['seopack'] = '___db.table.prefix___seopack';
+$config['$root$']['router']['page']['seopack'] = 'PluginSeopack_ActionSeopack';
 
-Config::Set('router.page.seopack', 'PluginSeopack_ActionSeopack');
+$config['url']['skip_scheme'] = true;
+
+$config['title']['max_length'] = 60;
+$config['description']['max_length'] = 160;
+$config['keywords']['max_length'] = 160;
 
 $config['widgets'][] = array(
     'name' => 'toolbar_seopack.tpl',
     'wgroup' => 'toolbar',
     'priority' => '90',
-	'params'=>array('plugin'=>'seopack'),
+    'plugin'=>'seopack',
 );
 
 $cfgLangLoadToJs = Config::Get('lang.load_to_js');
 
 $cfgLangLoadToJs[] = 'plugin.seopack.recomended_title_length';
 $cfgLangLoadToJs[] = 'plugin.seopack.recomended_description_length';
+$cfgLangLoadToJs[] = 'plugin.seopack.recomended_keywords_length';
 
 Config::Set('lang.load_to_js', $cfgLangLoadToJs);
 
 return $config;
-?>
+
+// EOF

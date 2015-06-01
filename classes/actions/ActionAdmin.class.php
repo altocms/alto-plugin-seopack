@@ -31,11 +31,11 @@ class PluginSeopack_ActionAdmin extends PluginSeopack_Inherits_ActionAdmin {
 
         $this->sMainMenuItem = 'content';
 
-        $this->_setTitle($this->Lang_Get('plugin.seopack.seopack_title'));
+        $this->_setTitle(E::ModuleLang()->Get('plugin.seopack.seopack_title'));
 
         $nPage = $this->_getPageNum();
 
-        $aSeopack = $this->PluginSeopack_Seopack_GetSeopackItemsByFilter(
+        $aSeopack = E::ModuleSeopack()->GetSeopackItemsByFilter(
             array(
                 '#page' => 1,
                 '#limit' => array(($nPage - 1) * Config::Get('admin.items_per_page'),
@@ -43,13 +43,13 @@ class PluginSeopack_ActionAdmin extends PluginSeopack_Inherits_ActionAdmin {
             )
         );
 
-        $aPaging = $this->Viewer_MakePaging(
+        $aPaging = E::ModuleViewer()->MakePaging(
             $aSeopack['count'], $nPage, Config::Get('admin.items_per_page'), 4,
             Router::GetPath('admin') . 'seopack/'
         );
 
-        $this->Viewer_Assign('aSeopack', $aSeopack['collection']);
-        $this->Viewer_Assign('aPaging', $aPaging);
+        E::ModuleViewer()->Assign('aSeopack', $aSeopack['collection']);
+        E::ModuleViewer()->Assign('aPaging', $aPaging);
 
         $this->SetTemplateAction('seopack_list');
     }
@@ -58,18 +58,18 @@ class PluginSeopack_ActionAdmin extends PluginSeopack_Inherits_ActionAdmin {
 
         $this->sMainMenuItem = 'content';
 
-        $this->_setTitle($this->Lang_Get('plugin.seopack.seopack_title'));
+        $this->_setTitle(E::ModuleLang()->Get('plugin.seopack.seopack_title'));
 
-        if (isPost('submit_seopack_save')) {
+        if (F::isPost('submit_seopack_save')) {
             $this->SubmitSaveSeopack();
         }
 
-        $this->Viewer_Assign('sMode', str_replace('seopack', '', Router::GetActionEvent()));
+        E::ModuleViewer()->Assign('sMode', str_replace('seopack', '', Router::GetActionEvent()));
 
         if (Router::GetActionEvent() == 'seopackedit') {
-            if ($oSeopack = $this->PluginSeopack_Seopack_GetSeopackBySeopackId($this->GetParam(0))) {
+            if ($oSeopack = E::ModuleSeopack()->GetSeopackBySeopackId($this->GetParam(0))) {
 
-                if (!isPost('submit_seopack_save')) {
+                if (!F::isPost('submit_seopack_save')) {
                     $_REQUEST['url'] = $oSeopack->getUrl();
                     $_REQUEST['title'] = $oSeopack->getTitle();
                     $_REQUEST['description'] = $oSeopack->getDescription();
@@ -78,26 +78,14 @@ class PluginSeopack_ActionAdmin extends PluginSeopack_Inherits_ActionAdmin {
                 }
 
             } else {
-                $this->Message_AddError(
-                    $this->Lang_Get('plugin.seopack.seopack_edit_notfound'), $this->Lang_Get('error')
+                E::ModuleMessage()->AddError(
+                    E::ModuleLang()->Get('plugin.seopack.seopack_edit_notfound'), E::ModuleLang()->Get('error')
                 );
                 $this->SetParam(0, null);
             }
         }
 
         $this->SetTemplateAction('seopack_edit');
-    }
-
-    protected function GetUri($url) {
-
-        $this->sMainMenuItem = 'content';
-
-        $url = str_replace(Config::Get('path.root.web'), '', $url);
-        $pos = strpos($url, '#');
-        if ($pos = strpos($url, '#')) {
-            $url = substr($url, 0, $pos);
-        }
-        return trim(strip_tags($url), "/");
     }
 
     protected function SubmitSaveSeopack() {
@@ -108,25 +96,26 @@ class PluginSeopack_ActionAdmin extends PluginSeopack_Inherits_ActionAdmin {
             return false;
         }
 
-        if (!getRequest('seopack_id')) {
-            if (!$oSeopack = $this->PluginSeopack_Seopack_GetSeopackByUrl($this->GetUri(getRequest('url')))) {
+        $sUrl = E::ModuleSeopack()->ClearUrl(F::GetRequest('url'));
+        if (!F::GetRequest('seopack_id')) {
+            if (!$oSeopack = E::ModuleSeopack()->GetSeopackByUrl($this->GetUri($sUrl))) {
                 $oSeopack = Engine::GetEntity('PluginSeopack_ModuleSeopack_EntitySeopack');
-                $oSeopack->setUrl($this->GetUri(getRequest('url')));
+                $oSeopack->setUrl($this->GetUri($sUrl));
             }
-        } elseif (!$oSeopack = $this->PluginSeopack_Seopack_GetSeopackBySeopackId(getRequest('seopack_id'))) {
+        } elseif (!$oSeopack = E::ModuleSeopack()->GetSeopackBySeopackId(F::GetRequest('seopack_id'))) {
             $oSeopack = Engine::GetEntity('PluginSeopack_ModuleSeopack_EntitySeopack');
-            $oSeopack->setUrl($this->GetUri(getRequest('url')));
+            $oSeopack->setUrl($this->GetUri($sUrl));
         }
 
-        $oSeopack->setTitle(getRequest('title_auto') ? null : strip_tags(getRequest('title')));
-        $oSeopack->setDescription(getRequest('description_auto') ? null : strip_tags(getRequest('description')));
-        $oSeopack->setKeywords(getRequest('keywords_auto') ? null : strip_tags(getRequest('keywords')));
+        $oSeopack->setTitle(F::GetRequest('title_auto') ? null : strip_tags(F::GetRequest('title')));
+        $oSeopack->setDescription(F::GetRequest('description_auto') ? null : strip_tags(F::GetRequest('description')));
+        $oSeopack->setKeywords(F::GetRequest('keywords_auto') ? null : strip_tags(F::GetRequest('keywords')));
 
         if ($oSeopack->Save()) {
-            $this->Message_AddNotice($this->Lang_Get('plugin.seopack.seopack_edit_submit_save_ok'));
+            E::ModuleMessage()->AddNotice(E::ModuleLang()->Get('plugin.seopack.seopack_edit_submit_save_ok'));
             Router::Location('admin/seopack/');
         } else {
-            $this->Message_AddError($this->Lang_Get('system_error'));
+            E::ModuleMessage()->AddError(E::ModuleLang()->Get('system_error'));
         }
     }
 
@@ -134,15 +123,15 @@ class PluginSeopack_ActionAdmin extends PluginSeopack_Inherits_ActionAdmin {
 
         $this->sMainMenuItem = 'content';
 
-        $this->Security_ValidateSendForm();
+        E::ModuleSecurity()->ValidateSendForm();
 
-        if ($oSeopack = $this->PluginSeopack_Seopack_GetSeopackBySeopackId($this->GetParam(0))) {
+        if ($oSeopack = E::ModuleSeopack()->GetSeopackBySeopackId($this->GetParam(0))) {
             $oSeopack->Delete();
-            $this->Message_AddNotice($this->Lang_Get('plugin.seopack.seopack_admin_action_delete_ok') . null, true);
+            E::ModuleMessage()->AddNotice(E::ModuleLang()->Get('plugin.seopack.seopack_admin_action_delete_ok') . null, true);
             Router::Location('admin/seopack/');
         } else {
-            $this->Message_AddError(
-                $this->Lang_Get('plugin.seopack.seopack_admin_action_delete_error'), $this->Lang_Get('error')
+            E::ModuleMessage()->AddError(
+                E::ModuleLang()->Get('plugin.seopack.seopack_admin_action_delete_error'), E::ModuleLang()->Get('error')
             );
         }
 
@@ -151,31 +140,31 @@ class PluginSeopack_ActionAdmin extends PluginSeopack_Inherits_ActionAdmin {
 
     protected function CheckSeopackFields() {
 
-        $this->Security_ValidateSendForm();
+        E::ModuleSecurity()->ValidateSendForm();
 
         $bOk = true;
 
-        if (isPost('title') && !func_check(getRequest('title', '', 'post'), 'text', 0, 1000)) {
-            $this->Message_AddError(
-                $this->Lang_Get('plugin.seopack.seopack_create_title_error'), $this->Lang_Get('error')
+        if (F::isPost('title') && !F::CheckVal(F::GetRequest('title', '', 'post'), 'text', 0, 1000)) {
+            E::ModuleMessage()->AddError(
+                E::ModuleLang()->Get('plugin.seopack.seopack_create_title_error'), E::ModuleLang()->Get('error')
             );
             $bOk = false;
         }
-        if (isPost('description') && !func_check(getRequest('description', '', 'post'), 'text', 0, 1000)) {
-            $this->Message_AddError(
-                $this->Lang_Get('plugin.seopack.seopack_create_description_error'), $this->Lang_Get('error')
+        if (F::isPost('description') && !F::CheckVal(F::GetRequest('description', '', 'post'), 'text', 0, 1000)) {
+            E::ModuleMessage()->AddError(
+                E::ModuleLang()->Get('plugin.seopack.seopack_create_description_error'), E::ModuleLang()->Get('error')
             );
             $bOk = false;
         }
-        if (isPost('keywords') && !func_check(getRequest('keywords', '', 'post'), 'text', 0, 1000)) {
-            $this->Message_AddError(
-                $this->Lang_Get('plugin.seopack.seopack_create_keywords_error'), $this->Lang_Get('error')
+        if (F::isPost('keywords') && !F::CheckVal(F::GetRequest('keywords', '', 'post'), 'text', 0, 1000)) {
+            E::ModuleMessage()->AddError(
+                E::ModuleLang()->Get('plugin.seopack.seopack_create_keywords_error'), E::ModuleLang()->Get('error')
             );
             $bOk = false;
         }
-        if (isPost('url') && !func_check(getRequest('url', null, 'post'), 'text', 0, 255)) {
-            $this->Message_AddError(
-                $this->Lang_Get('plugin.seopack.seopack_create_url_error'), $this->Lang_Get('error')
+        if (F::isPost('url') && !F::CheckVal(F::GetRequest('url', null, 'post'), 'text', 0, 255)) {
+            E::ModuleMessage()->AddError(
+                E::ModuleLang()->Get('plugin.seopack.seopack_create_url_error'), E::ModuleLang()->Get('error')
             );
             $bOk = false;
         }

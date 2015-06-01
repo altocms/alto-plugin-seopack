@@ -9,7 +9,7 @@
 
             <div class="modal-body">
 				<div class="form-group">
-					<label for="seopack-title-form-text">{$aLang.plugin.seopack.seopack_create_title}:
+					<label for="seopack-title-form-text">{$aLang.plugin.seopack.seopack_create_title|escape:'html'}:
 						<small>
 							<input type="checkbox" id="title_auto" name="title_auto" value="1"
 							   class="input-seopack" onchange="ls.toolbar.seopack.toggleForm('title');" 
@@ -20,7 +20,7 @@
 				</div>
 			 
 				<div class="form-group">
-					<label>{$aLang.plugin.seopack.seopack_create_description}:
+					<label>{$aLang.plugin.seopack.seopack_create_description|escape:'html'}:
 						<small>
 							<input type="checkbox" id="description_auto" name="description_auto" value="1"
 							   class="input-seopack" onchange="ls.toolbar.seopack.toggleForm('description');"
@@ -31,7 +31,7 @@
 				</div>
 			 
 				<div class="form-group">
-					<label>{$aLang.plugin.seopack.seopack_create_keywords}:
+					<label>{$aLang.plugin.seopack.seopack_create_keywords|escape:'html'}:
 						<small>
 							<input type="checkbox" id="keywords_auto" name="keywords_auto" value="1"
 							   class="input-seopack" onchange="ls.toolbar.seopack.toggleForm('keywords');"
@@ -41,7 +41,7 @@
 					<textarea rows="3" cols="20" id="seopack-keywords-form-text" name="keywords" class="form-control input-text input-width-full" {if !($oSeopack && $oSeopack->getKeywords())}disabled{/if}>{$sHtmlKeywords}</textarea>
 				</div>
 				
-				<button type="submit"  onclick="return ls.toolbar.seopack.save('{$oCurrentUrl}');" class="btn btn-primary">{$aLang.user_note_form_save}</button>
+				<button type="submit"  onclick="return ls.toolbar.seopack.save('{$sCurrentUrl}');" class="btn btn-primary">{$aLang.user_note_form_save}</button>
 				<button type="submit"  onclick="return ls.toolbar.seopack.cancel();" class="btn">{$aLang.user_note_form_cancel}</button>
 				
 		
@@ -50,3 +50,28 @@
         </div>
     </div>
 </div>
+
+<script>
+    jQuery(document).ready(function ($) {
+        $("#seopack-title-form-text").charCount({
+            allowed: {C::Get('plugin.seopack.title.max_length')},
+            warning: 0,
+            counterElement: 'div',
+            counterText: ls.lang.get('plugin.seopack.recomended_title_length', { max: '{C::Get('plugin.seopack.title.max_length')}' })
+        });
+
+        $("#seopack-description-form-text").charCount({
+            allowed: {C::Get('plugin.seopack.description.max_length')},
+            warning: 0,
+            counterElement: 'div',
+            counterText: ls.lang.get('plugin.seopack.recomended_description_length', { max: '{C::Get('plugin.seopack.title.max_length')}' })
+        });
+
+        $("#seopack-keywords-form-text").charCount({
+            allowed: {C::Get('plugin.seopack.keywords.max_length')},
+            warning: 0,
+            counterElement: 'div',
+            counterText: ls.lang.get('plugin.seopack.recomended_keywords_length', { max: '{C::Get('plugin.seopack.title.max_length')}' })
+        });
+    });
+</script>

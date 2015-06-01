@@ -19,15 +19,13 @@ class PluginSeopack_ActionSeopack extends ActionPlugin {
 
     public function Init() {
 
-        $this->Viewer_SetResponseAjax('json');
+        E::ModuleViewer()->SetResponseAjax('json');
 
-        if ($this->User_IsAuthorization()) {
-            $this->oUserCurrent = $this->User_GetUserCurrent();
-        }
-        if (!$this->oUserCurrent || !$this->oUserCurrent->isAdministrator()) {
-            return Router::Location('error/404/');
+        if (!E::IsAdmin()) {
+            Router::Location('error/404/');
         }
 
+        $this->oUserCurrent = E::User();
     }
 
     /**
@@ -40,58 +38,63 @@ class PluginSeopack_ActionSeopack extends ActionPlugin {
 
     protected function EventAjaxSet() {
 
-        if (!isPost('url')) {
+        if (!F::isPost('url')) {
             return false;
         }
 
         if (!$this->CheckSeopackFields()) {
             return false;
         }
-        if (!$oSeopack = $this->PluginSeopack_Seopack_GetSeopackByUrl(strip_tags(getRequest('url')))) {
+        $sUrl = E::ModuleSeopack()->ClearUrl(F::GetRequest('url'));
+
+        if (!$oSeopack = E::ModuleSeopack()->GetSeopackByUrl($sUrl)) {
             $oSeopack = Engine::GetEntity('PluginSeopack_ModuleSeopack_EntitySeopack');
-            $oSeopack->setUrl(trim(strip_tags(getRequest('url')), "/"));
+            $oSeopack->setUrl($sUrl);
         }
 
-        if (getRequest('title_auto') && getRequest('description_auto') && getRequest('keywords_auto')) {
+        if (F::GetRequest('title_auto') && F::GetRequest('description_auto') && F::GetRequest('keywords_auto')) {
             $oSeopack->Delete();
-            $this->Message_AddNotice($this->Lang_Get('plugin.seopack.seopack_edit_submit_save_ok'));
+            E::ModuleMessage()->AddNotice(E::ModuleLang()->Get('plugin.seopack.seopack_edit_submit_save_ok'));
             return;
         }
 
-        $oSeopack->setTitle(getRequest('title_auto') ? null : strip_tags(getRequest('title')));
-        $oSeopack->setDescription(getRequest('description_auto') ? null : strip_tags(getRequest('description')));
-        $oSeopack->setKeywords(getRequest('keywords_auto') ? null : strip_tags(getRequest('keywords')));
+        $oSeopack->setTitle(F::GetRequest('title_auto') ? null : strip_tags(F::GetRequest('title')));
+        $oSeopack->setDescription(F::GetRequest('description_auto') ? null : strip_tags(F::GetRequest('description')));
+        $oSeopack->setKeywords(F::GetRequest('keywords_auto') ? null : strip_tags(F::GetRequest('keywords')));
 
         if ($oSeopack->Save()) {
             if ($oSeopack->getTitle()) {
-                $this->Viewer_AssignAjax('title', $oSeopack->getTitle());
+                E::ModuleViewer()->AssignAjax('title', $oSeopack->getTitle());
             }
-            $this->Message_AddNotice($this->Lang_Get('plugin.seopack.seopack_edit_submit_save_ok'));
+            E::ModuleMessage()->AddNotice(E::ModuleLang()->Get('plugin.seopack.seopack_edit_submit_save_ok'));
         }
 
         return;
     }
 
+    /**
+     * @return bool
+     */
     protected function CheckSeopackFields() {
 
-        $this->Security_ValidateSendForm();
+        E::ModuleSecurity()->ValidateSendForm();
 
         $bOk = true;
 
-        if (isPost('title') && !func_check(getRequest('title', null, 'post'), 'text', 0, 1000)) {
-            $this->Message_AddError($this->Lang_Get('plugin.seopack.title_error'), $this->Lang_Get('error'));
+        if (F::isPost('title') && !F::CheckVal(F::GetRequest('title', null, 'post'), 'text', 0, 1000)) {
+            E::ModuleMessage()->AddError(E::ModuleLang()->Get('plugin.seopack.title_error'), E::ModuleLang()->Get('error'));
             $bOk = false;
         }
-        if (isPost('description') && !func_check(getRequest('description', null, 'post'), 'text', 0, 1000)) {
-            $this->Message_AddError($this->Lang_Get('plugin.seopack.description_error'), $this->Lang_Get('error'));
+        if (F::isPost('description') && !F::CheckVal(F::GetRequest('description', null, 'post'), 'text', 0, 1000)) {
+            E::ModuleMessage()->AddError(E::ModuleLang()->Get('plugin.seopack.description_error'), E::ModuleLang()->Get('error'));
             $bOk = false;
         }
-        if (isPost('keywords') && !func_check(getRequest('keywords', null, 'post'), 'text', 0, 1000)) {
-            $this->Message_AddError($this->Lang_Get('plugin.seopack.keywords_error'), $this->Lang_Get('error'));
+        if (F::isPost('keywords') && !F::CheckVal(F::GetRequest('keywords', null, 'post'), 'text', 0, 1000)) {
+            E::ModuleMessage()->AddError(E::ModuleLang()->Get('plugin.seopack.keywords_error'), E::ModuleLang()->Get('error'));
             $bOk = false;
         }
-        if (!func_check(getRequest('url', null, 'post'), 'text', 0, 255)) {
-            $this->Message_AddError($this->Lang_Get('plugin.seopack.url_error'), $this->Lang_Get('error'));
+        if (!F::CheckVal(F::GetRequest('url', null, 'post'), 'text', 0, 255)) {
+            E::ModuleMessage()->AddError(E::ModuleLang()->Get('plugin.seopack.url_error'), E::ModuleLang()->Get('error'));
             $bOk = false;
         }
 

@@ -10,7 +10,6 @@
 
 return array(
     'menu_content_seopack' => 'SEO параметры',
-	'seopack_title' => 'SEO параметры',
 	'manage_seo_page' => 'Управлять SEO параметрами страницы',
 	'edit_parameters' => 'SEO параметры',
 	'auto_generate' => 'Автогенерация',
@@ -18,9 +17,9 @@ return array(
     'seopack_create' => 'Создание новой записи',
     'seopack_edit' => 'Редактирование записи',
 	'seopack_create_url' => 'URL',
-    'seopack_create_title' => 'Title страницы',
-    'seopack_create_description' => 'Description страницы',
-    'seopack_create_keywords' => 'Keywords страницы',
+    'seopack_create_title' => 'Тег <title> страницы',
+    'seopack_create_description' => 'Тег <description> страницы',
+    'seopack_create_keywords' => 'Тег <keywords> страницы',
 	'seopack_create_title_error' => 'Название страницы должно быть от 0 до 1000 символов',
     'seopack_create_keywords_error' => 'Название страницы должно быть от 0 до 1000 символов',
 	'seopack_create_description_error' => 'Название страницы должно быть от 0 до 1000 символов',
@@ -45,6 +44,9 @@ return array(
     'seopack_options' => 'Опции',
 	'menu_seopack_new' => 'Новая',
     'menu_seopack_options' => 'Опции',
-    'recomended_title_length' => 'Рекомедуется не более 60 символов, осталось: ',
-    'recomended_description_length' => 'Рекомедуется не более 160 символов, осталось: ',
+    'recomended_title_length' => 'Рекомедуется не более %%max%% символов, осталось: ',
+    'recomended_description_length' => 'Рекомедуется не более %%max%% символов, осталось: ',
+    'recomended_keywords_length' => 'Рекомедуется не более %%max%% символов, осталось: ',
 );
+
+// EOF
