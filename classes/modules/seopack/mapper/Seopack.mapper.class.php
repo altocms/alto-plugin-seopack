@@ -14,7 +14,7 @@
  *----------------------------------------------------------------------------
  */
 
-class PluginSeopack_ModuleSeopack_MapperSeopack extends Mapper {
+class PluginSeopack_ModuleSeopack_MapperSeopack extends MapperORM {
 
 }
 
