@@ -54,7 +54,7 @@ class PluginSeopack extends Plugin {
     public function Init() {
 
         E::ModuleViewer()->AppendScript(Plugin::GetTemplateDir(__CLASS__) . 'assets/js/seopack.js');
-        E::ModuleViewer()->AppendStyle(Plugin::GetTemplateDir(__CLASS__) . 'assets/css/seopack.css');
+        //E::ModuleViewer()->AppendStyle(Plugin::GetTemplateDir(__CLASS__) . 'assets/css/seopack.css');
     }
 
 }
